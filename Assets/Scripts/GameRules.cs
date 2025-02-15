@@ -95,7 +95,7 @@ public class GameRules : MonoBehaviour
             calculateRandomMovement();
         }
         RandomMoveTime += Time.deltaTime;
-        if(RandomMoveTime > 5f)
+        if(RandomMoveTime > 3f)
         {
             RandomMoveBool = true;
             RandomMoveTime = 0f;
@@ -190,7 +190,10 @@ public class GameRules : MonoBehaviour
 
     private void SpawnCoin(Vector2 position)
     {
-
+        if(coin != null)
+        {
+            coin.GetComponent<Coin>().DestroyCoin();
+        }
         // Eğer coin yoksa, yeni bir tane oluştur
             GameObject newCoin = Instantiate(coinPrefab, position, Quaternion.identity);
             newCoin.tag = "Coin"; // Coin tag'ini eklemeyi unutmayın
@@ -296,8 +299,8 @@ public class GameRules : MonoBehaviour
     private void calculateRandomMovement()
     {
         int randomPossibility = Random.Range(0, 100);
-        Vector2 randomDirection = new Vector2(Random.Range(-2f, 2f), playerRb.transform.position.y);
-        if(randomPossibility < 50)
+        Vector2 randomDirection = new Vector2(Random.Range(-5f, 5f), playerRb.transform.position.y);
+        if(randomPossibility < 70)
         {
             AddMovement(randomDirection);
         }

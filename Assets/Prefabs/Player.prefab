@@ -135,6 +135,10 @@ MonoBehaviour:
   gucCarpani: 2
   gucRengi: {r: 1, g: 0, b: 0, a: 1}
   coinPrefab: {fileID: 3636848264664221032, guid: 0dd72946c1644da40a05b46323d3744f, type: 3}
+  maxWindTime: 3
+  windRechargeTime: 5
+  windBarFill: {fileID: 0}
+  windBarContainer: {fileID: 0}
 --- !u!61 &2807100296267462
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -193,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeedForMoving: 0.1
+  jumpCheckThreshold: 0.8
 --- !u!95 &7596451607309526751
 Animator:
   serializedVersion: 5

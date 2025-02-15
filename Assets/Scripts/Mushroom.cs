@@ -8,21 +8,24 @@ public class Mushroom : MonoBehaviour
     [SerializeField] private float bounceBackForce = 5f; // Yatay geri tepme kuvveti
     [SerializeField] private ParticleSystem bounceEffect; // Zıplama efekti
     
-    [Header("Animasyon")]
-    [SerializeField] private Animator mushroomAnimator; // Mantar animatörü
+    [Header("Sıkışma Efekti")]
     [SerializeField] private float squishAmount = 0.2f; // Sıkışma miktarı
     [SerializeField] private float squishDuration = 0.1f; // Sıkışma süresi
     
     private Vector3 originalScale;
     private bool isSquishing = false;
+    private Animator animator;
 
     private void Start()
     {
-        if (mushroomAnimator == null)
-        {
-            mushroomAnimator = GetComponent<Animator>();
-        }
         originalScale = transform.localScale;
+        animator = GetComponent<Animator>();
+        
+        // Animator null check
+        if (animator == null)
+        {
+            Debug.LogWarning("Animator component eksik!");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
