@@ -11,6 +11,7 @@ public class PlayerAnimationController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool isCoinRunning = false;
     private Transform targetCoin; // Hedef coin'in referansını tutacak
+    [SerializeField] private float jumpCheckThreshold = 0.9f;
 
     private bool isInitialized = false;
     private bool isFinished = false; // Finish durumunu kontrol etmek için
@@ -19,6 +20,7 @@ public class PlayerAnimationController : MonoBehaviour
     private readonly string IS_RUNNING = "IsRunning";    // Normal koşma
     private readonly string IS_COIN_RUN = "IsCoinRun";  // Para görünce koşma
     private readonly string TRIGGER_FINISH = "Finish";   // Bitiş animasyonu
+    private readonly string IS_AIR = "IsAir"; // Havada olma
 
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class PlayerAnimationController : MonoBehaviour
             // Parametreleri kontrol et ve oluştur
             foreach (AnimatorControllerParameter param in animator.parameters)
             {
-                if (param.name == IS_RUNNING || param.name == IS_COIN_RUN || param.name == TRIGGER_FINISH)
+                if (param.name == IS_RUNNING || param.name == IS_COIN_RUN || param.name == TRIGGER_FINISH || param.name == IS_AIR)
                 {
                     continue;
                 }
@@ -81,11 +83,20 @@ public class PlayerAnimationController : MonoBehaviour
     private void UpdateMovementAnimation()
     {
         if (isFinished) return; // Finish olduysa diğer animasyonları güncelleme
-        
-        if (!isCoinRunning)
+        if (IsGrounded())
         {
-            bool isMoving = Mathf.Abs(rb.velocity.magnitude) > minSpeedForMoving;
-            animator.SetBool(IS_RUNNING, isMoving);
+            StopAirAnimation();
+            if (!isCoinRunning)
+            {
+                bool isMoving = Mathf.Abs(rb.velocity.magnitude) > minSpeedForMoving;
+                animator.SetBool(IS_RUNNING, isMoving);
+            }
+        }
+        else
+        {
+            animator.SetBool(IS_RUNNING, false);
+            animator.SetBool(IS_COIN_RUN, false);
+            StartAirAnimation();
         }
     }
 
@@ -152,5 +163,33 @@ public class PlayerAnimationController : MonoBehaviour
         
         // Debug log ekleyelim
         Debug.Log("Finish animation triggered!");
+    }
+
+    private void StartAirAnimation()
+    {
+        animator.SetBool(IS_AIR, true);
+    }
+
+    private void StopAirAnimation()
+    {
+        animator.SetBool(IS_AIR, false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector2.down * jumpCheckThreshold);
+    }
+
+    private bool IsGrounded()
+    {
+        // Karakterin altında küçük bir raycast ile yere değip değmediğini kontrol et
+        RaycastHit2D hit = Physics2D.Raycast(
+            new Vector2(transform.position.x, (transform.position.y + jumpCheckThreshold) * -1), 
+            Vector2.down, 
+            jumpCheckThreshold, 
+            LayerMask.GetMask("Ground")
+        );
+        return hit.collider != null;
     }
 } 

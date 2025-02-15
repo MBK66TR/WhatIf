@@ -95,7 +95,7 @@ public class GameRules : MonoBehaviour
             calculateRandomMovement();
         }
         RandomMoveTime += Time.deltaTime;
-        if(RandomMoveTime > 10f)
+        if(RandomMoveTime > 5f)
         {
             RandomMoveBool = true;
             RandomMoveTime = 0f;
@@ -118,6 +118,11 @@ public class GameRules : MonoBehaviour
         {
             windBarContainer.SetActive(currentMode == 0); // Sadece rüzgar modunda göster
         }
+
+            if(coin != null)
+            {
+                MoveToCoin(coin);
+            }
 
         Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
@@ -146,11 +151,7 @@ public class GameRules : MonoBehaviour
 
             case 2: // Para modu
 
-                if(coin != null)
-                {
-                    MoveToCoin(coin);
-                }
-                else if(Input.GetMouseButtonDown(0))
+                if(Input.GetMouseButtonDown(0))
                 {
                     SpawnCoin(mousePosition);
                 }
@@ -313,7 +314,6 @@ public class GameRules : MonoBehaviour
 
         if (isWindActive)
         {
-            Debug.Log($"Rüzgar Aktif - Kalan Süre: {currentWindTime}");
             currentWindTime -= Time.deltaTime;
             if (currentWindTime <= 0)
             {
@@ -346,14 +346,11 @@ public class GameRules : MonoBehaviour
 
     private void UpdateWindBar()
     {
-        Debug.Log($"Wind Bar Object active: {windBarContainer?.activeSelf}");
-        Debug.Log($"Wind Bar Fill component exists: {windBarFill != null}");
         
         if (windBarFill != null)
         {
             float normalizedValue = Mathf.Clamp01(currentWindTime / maxWindTime);
             windBarFill.fillAmount = normalizedValue;
-            Debug.Log($"Setting fill amount to: {normalizedValue}");
         }
     }
 }
