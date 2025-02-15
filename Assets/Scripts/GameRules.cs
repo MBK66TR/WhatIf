@@ -45,6 +45,13 @@ public class GameRules : MonoBehaviour
     private bool canUseWind = true; // Rüzgar kullanılabilir mi
     private bool isWindActive = false; // Rüzgar aktif mi
 
+    [Header("Para Modu Ayarları")]
+    [SerializeField] private float maxCoinTime = 5f; // Para bekletme süresi
+    [SerializeField] private Image coinBarFill; // Para bar'ı
+    [SerializeField] private GameObject coinBarContainer;
+    private float currentCoinTime;
+    private bool canPlaceCoin = true;
+
     void Awake()
     {
         Initialize();
@@ -81,6 +88,8 @@ public class GameRules : MonoBehaviour
         isInitialized = true;
         currentWindTime = maxWindTime;
         UpdateWindBar();
+        currentCoinTime = maxCoinTime;
+        UpdateCoinBar();
     }
 
     void Update()
@@ -113,16 +122,20 @@ public class GameRules : MonoBehaviour
 
     void HandleModes()
     {
-        // Önce bar'ın görünürlüğünü ayarla
+        // Bar'ların görünürlüğünü ayarla
         if (windBarContainer != null)
         {
-            windBarContainer.SetActive(currentMode == 0); // Sadece rüzgar modunda göster
+            windBarContainer.SetActive(currentMode == 0);
+        }
+        if (coinBarContainer != null)
+        {
+            coinBarContainer.SetActive(currentMode == 2);
         }
 
-            if(coin != null)
-            {
-                MoveToCoin(coin);
-            }
+        if(coin != null)
+        {
+            MoveToCoin(coin);
+        }
 
         Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
@@ -190,16 +203,20 @@ public class GameRules : MonoBehaviour
 
     private void SpawnCoin(Vector2 position)
     {
-        if(coin != null)
+        if (!canPlaceCoin) return;
+
+        if (coin != null)
         {
             coin.GetComponent<Coin>().DestroyCoin();
         }
-        // Eğer coin yoksa, yeni bir tane oluştur
-            GameObject newCoin = Instantiate(coinPrefab, position, Quaternion.identity);
-            newCoin.tag = "Coin"; // Coin tag'ini eklemeyi unutmayın
-            coin = newCoin;
-        
-        
+
+        GameObject newCoin = Instantiate(coinPrefab, position, Quaternion.identity);
+        newCoin.tag = "Coin";
+        coin = newCoin;
+
+        canPlaceCoin = false;
+        currentCoinTime = 0;
+        StartCoroutine(RechargeCoin());
     }
 
     private void MoveToCoin(GameObject coin)
@@ -355,6 +372,32 @@ public class GameRules : MonoBehaviour
             float normalizedValue = Mathf.Clamp01(currentWindTime / maxWindTime);
             windBarFill.fillAmount = normalizedValue;
         }
+    }
+
+    private void UpdateCoinBar()
+    {
+        if (coinBarFill != null)
+        {
+            float normalizedValue = Mathf.Clamp01(currentCoinTime / maxCoinTime);
+            coinBarFill.fillAmount = normalizedValue;
+        }
+    }
+
+    private IEnumerator RechargeCoin()
+    {
+        float rechargeProgress = 0;
+        
+        while (rechargeProgress < maxCoinTime)
+        {
+            rechargeProgress += Time.deltaTime;
+            currentCoinTime = Mathf.Lerp(0, maxCoinTime, rechargeProgress / maxCoinTime);
+            UpdateCoinBar();
+            yield return null;
+        }
+
+        currentCoinTime = maxCoinTime;
+        canPlaceCoin = true;
+        UpdateCoinBar();
     }
 }
 
