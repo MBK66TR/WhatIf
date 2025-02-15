@@ -9,10 +9,27 @@ public class Coin : MonoBehaviour
     
     private Vector3 startPosition;
     private float bobTime;
+    private PlayerAnimationController playerAnim;
 
     private void Start()
     {
         startPosition = transform.position;
+        FindPlayer();
+    }
+
+    private void FindPlayer()
+    {
+        if (playerAnim != null) return;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerAnim = player.GetComponent<PlayerAnimationController>();
+            if (playerAnim != null)
+            {
+                playerAnim.Initialize();
+            }
+        }
     }
 
     private void Update()
@@ -30,13 +47,20 @@ public class Coin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // You can add score or other effects here
+            if (playerAnim != null)
+            {
+                playerAnim.StopCoinRunAnimation(); // Para toplanınca koşma animasyonunu durdur
+            }
             DestroyCoin();
         }
     }
 
     public void DestroyCoin()
     {
+        if (playerAnim != null)
+        {
+            playerAnim.StopCoinRunAnimation(); // Para yok edildiğinde de animasyonu durdur
+        }
         Destroy(gameObject);
     }
 } 

@@ -8,7 +8,19 @@ public class FinishPoint : MonoBehaviour
     [SerializeField] private float transitionDelay = 1f; // Geçiş için beklenecek süre
     [SerializeField] private ParticleSystem completionEffect; // Opsiyonel parçacık efekti
     
+    [Header("Çiçek Ayarları")]
+    [SerializeField] private Animator flowerAnimator; // Çiçek animatörü
+    
     private bool levelCompleted = false;
+
+    private void Start()
+    {
+        // Eğer animator component aynı objede ise otomatik al
+        if (flowerAnimator == null)
+        {
+            flowerAnimator = GetComponent<Animator>();
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,7 +35,21 @@ public class FinishPoint : MonoBehaviour
 
     private void LevelCompleted()
     {
+        if (levelCompleted) return;
+        
         levelCompleted = true;
+        
+        // Oyuncunun animasyon kontrolcüsünü bul ve finish animasyonunu tetikle
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerAnimationController playerAnim = player.GetComponent<PlayerAnimationController>();
+            if (playerAnim != null)
+            {
+                playerAnim.TriggerFinishAnimation();
+                Debug.Log("Trying to trigger finish animation");
+            }
+        }
         
         // Parçacık efektini oynat (eğer varsa)
         if (completionEffect != null)
