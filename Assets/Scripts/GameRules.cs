@@ -14,6 +14,9 @@ public class GameRules : MonoBehaviour
     private Camera mainCamera;
 
     private int currentMode = 0; // 0: Normal, 1: Rüzgar, 2: Para Çekimi
+
+    private GameObject coin;
+    
     
     void Start()
     {
@@ -65,8 +68,22 @@ public class GameRules : MonoBehaviour
                 break;
 
             case 2: // Para modu
+
+                if(coin != null)
+                {
+                    MoveToCoin(coin);
+                }
+                else if(Input.GetMouseButtonDown(0))
+                {
                     SpawnCoin(mousePosition);
-                
+                }
+                if(Input.GetMouseButtonDown(1))
+                {
+                    if(coin != null)
+                    {
+                        coin.GetComponent<Coin>().DestroyCoin();
+                    }
+                }
                 break;
         }
     }
@@ -88,23 +105,21 @@ public class GameRules : MonoBehaviour
 
     private void SpawnCoin(Vector2 position)
     {
-        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
-        if (coins.Length <= 0 && Input.GetMouseButtonDown(0))
-        {
+
+        // Eğer coin yoksa, yeni bir tane oluştur
             GameObject newCoin = Instantiate(coinPrefab, position, Quaternion.identity);
-            // Coin script'i prefab'da olmalı, burada tekrar eklemeye gerek yok
-
-        }
-        else if (coins[0] != null)
-        {
-            MoveToCoin(coins[0]);
-        }
+            newCoin.tag = "Coin"; // Coin tag'ini eklemeyi unutmayın
+            coin = newCoin;
+        
+        
     }
-
 
     private void MoveToCoin(GameObject coin)
     {
-        playerRb.transform.position = Vector2.MoveTowards(playerRb.transform.position, coin.transform.position, coinAttractionForce * Time.deltaTime);
+        if( Vector2.Distance(playerRb.transform.position, coin.transform.position) < 20)
+        {
+            playerRb.transform.position = Vector2.MoveTowards(playerRb.transform.position, coin.transform.position, coinAttractionForce * Time.deltaTime);
+        }
     }
 }
 

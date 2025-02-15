@@ -31,7 +31,12 @@ public class Coin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // You can add score or other effects here
-            Destroy(gameObject);
+            DestroyCoin();
         }
+    }
+
+    public void DestroyCoin()
+    {
+        Destroy(gameObject);
     }
 } 
