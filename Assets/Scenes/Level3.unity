@@ -3002,6 +3002,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2695648689593023127, guid: cd25911f4c085e14bab95c16c5500884, type: 3}
+      propertyPath: nextLevel
+      value: Level4
+      objectReference: {fileID: 0}
     - target: {fileID: 2813044764667570248, guid: cd25911f4c085e14bab95c16c5500884, type: 3}
       propertyPath: m_Name
       value: FinishFlower
