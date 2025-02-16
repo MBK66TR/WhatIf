@@ -6,6 +6,13 @@ public class PlayerAnimationController : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float minSpeedForMoving = 0.1f;
     
+    [Header("Auto Run Settings")]
+    [SerializeField] private float autoRunSpeed = 5f;
+    [SerializeField] private float directionChangeInterval = 2f;
+    private bool isAutoRunning = false;
+    private float directionTimer = 0f;
+    private int currentDirection = 1; // 1: sağ, -1: sol
+
     private Animator animator;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -191,5 +198,47 @@ public class PlayerAnimationController : MonoBehaviour
             LayerMask.GetMask("Ground")
         );
         return hit.collider != null;
+    }
+
+    public void StartAutoRun()
+    {
+        if (animator == null || isFinished) return;
+        
+        isAutoRunning = true;
+        animator.SetBool(IS_RUNNING, true);
+        StartCoroutine(AutoRunRoutine());
+    }
+
+    private IEnumerator AutoRunRoutine()
+    {
+        while (isAutoRunning && !isFinished)
+        {
+            // Rastgele yön değiştirme zamanı
+            directionTimer += Time.deltaTime;
+            if (directionTimer >= Random.Range(directionChangeInterval * 0.5f, directionChangeInterval * 1.5f))
+            {
+                currentDirection *= -1; // Yönü tersine çevir
+                directionTimer = 0f;
+                spriteRenderer.flipX = currentDirection < 0;
+            }
+
+            // Karakteri hareket ettir
+            Vector2 movement = new Vector2(currentDirection * autoRunSpeed, rb.velocity.y);
+            rb.velocity = movement;
+
+            // CoinRun animasyonunu kullan
+            animator.SetBool(IS_COIN_RUN, true);
+            animator.SetBool(IS_RUNNING, false);
+
+            yield return null;
+        }
+    }
+
+    public void StopAutoRun()
+    {
+        isAutoRunning = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        animator.SetBool(IS_COIN_RUN, false);
+        animator.SetBool(IS_RUNNING, false);
     }
 } 

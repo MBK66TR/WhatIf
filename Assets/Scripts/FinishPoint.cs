@@ -11,6 +11,8 @@ public class FinishPoint : MonoBehaviour
     [Header("Çiçek Ayarları")]
     [SerializeField] private Animator flowerAnimator; // Çiçek animatörü
     
+    [SerializeField] private bool isLastLevel = false;
+    
     private bool levelCompleted = false;
 
     private void Start()
@@ -46,8 +48,16 @@ public class FinishPoint : MonoBehaviour
             PlayerAnimationController playerAnim = player.GetComponent<PlayerAnimationController>();
             if (playerAnim != null)
             {
-                playerAnim.TriggerFinishAnimation();
-                Debug.Log("Trying to trigger finish animation");
+                if (isLastLevel)
+                {
+                    playerAnim.StartAutoRun();
+                    Invoke("NextLevelTransition", transitionDelay * 2); // Son levelde biraz daha uzun bekle
+                }
+                else
+                {
+                    playerAnim.TriggerFinishAnimation();
+                    Invoke("NextLevelTransition", transitionDelay);
+                }
             }
         }
         
