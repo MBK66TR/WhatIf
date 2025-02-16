@@ -51,6 +51,8 @@ public class Mushroom : MonoBehaviour
                 rb.AddForce(new Vector2(bounceDirection * bounceBackForce, 0), ForceMode2D.Impulse);
             }
             
+            SoundManager.Instance.PlaySound("JumpEffect");
+            
             if (bounceEffect != null)
             {
                 bounceEffect.Play();

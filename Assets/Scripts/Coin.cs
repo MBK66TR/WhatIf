@@ -47,6 +47,7 @@ public class Coin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.Instance.PlaySound("CoinEffect");
             if (playerAnim != null)
             {
                 playerAnim.StopCoinRunAnimation(); // Para toplanınca koşma animasyonunu durdur

@@ -59,6 +59,8 @@ public class FinishPoint : MonoBehaviour
         
         // Sonraki levele geçiş
         Invoke("NextLevelTransition", transitionDelay);
+
+        SoundManager.Instance.PlaySound("FinishEffect");
     }
 
     private void NextLevelTransition()

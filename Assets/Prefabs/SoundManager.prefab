@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &775858772867946136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2857005118582306640}
+  - component: {fileID: 523598555465837242}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2857005118582306640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775858772867946136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &523598555465837242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775858772867946136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717266e75281ee9458d1b256bcaa645e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: CoinEffect
+    clip: {fileID: 8300000, guid: b24762162a5e5364fb3d5a38821e1d38, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: JumpEffect
+    clip: {fileID: 8300000, guid: 5a068687bd9f5f548ab57328f33d32c1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: FinishEffect
+    clip: {fileID: 8300000, guid: cd5ab1ba7b78d4b4f8ea2f0ce8c535f1, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: WindEffect
+    clip: {fileID: 8300000, guid: 35472a469126f5e43b066c1a190c170a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  masterVolume: 1
+  isSoundOn: 1
+  backgroundMusics:
+  - name: 
+    clip: {fileID: 8300000, guid: 5a143c8ed50eec149a808fb9833fd407, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 7ba853384eef8354d8a958d11af41458, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 7e2b7adcc1be00649a5394a408d5695e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: e03fd1cfd9194f445b11334fb5674c0c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 586395ca4e2df184e99667cc1b7ff41d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: e1a4577f0f3e8fc49944b3b0f491663d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 8cfef29b086d4ac429c362170f03cd9c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: be7c94bcabc70e6468473ff404b5a6bc, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  musicVolume: 0.05

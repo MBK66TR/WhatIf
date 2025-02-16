@@ -129,7 +129,7 @@ public class GameRules : MonoBehaviour
         }
         if (coinBarContainer != null)
         {
-            coinBarContainer.SetActive(currentMode == 2);
+            coinBarContainer.SetActive(currentMode == 1);
         }
 
         if(coin != null)
@@ -144,14 +144,22 @@ public class GameRules : MonoBehaviour
             case 0: // Rüzgar mod
                 if (Input.GetMouseButton(0) && canUseWind)
                 {
-                    isWindActive = true;
+                    if (!isWindActive)
+                    {
+                        SoundManager.Instance.PlaySound("WindEffect");
+                        isWindActive = true;
+                    }
                     Vector2 distance = mousePosition - (Vector2)playerRb.transform.position;    
                     Vector2 direction = distance.normalized;
                     ApplyForce(direction, distance);
                 }
                 else
                 {
-                    isWindActive = false;
+                    if (isWindActive)
+                    {
+                        SoundManager.Instance.StopSound("WindEffect");
+                        isWindActive = false;
+                    }
                 }
                 break;
 
@@ -391,6 +399,16 @@ public class GameRules : MonoBehaviour
         currentCoinTime = maxCoinTime;
         canPlaceCoin = true;
         UpdateCoinBar();
+    }
+
+    public IEnumerator HideUIElement(GameObject uiElement, float delay)
+    {
+        if (uiElement != null)
+        {
+            uiElement.SetActive(true);
+            yield return new WaitForSeconds(delay);
+            uiElement.SetActive(false);
+        }
     }
 }
 
