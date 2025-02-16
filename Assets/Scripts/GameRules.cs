@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; // Sadece UnityEngine.UI kullanacağız
@@ -11,12 +10,7 @@ public class GameRules : MonoBehaviour
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float coinAttractionForce = 4f;
 
-/*
-    [Header("Güç Ayarları")]
-    [SerializeField] private float gucSarjSuresi = 2f;
-    [SerializeField] private float gucCarpani = 2f;
-    [SerializeField] private Color gucRengi = Color.red;
-*/
+
 
     [SerializeField] private GameObject coinPrefab;
 
