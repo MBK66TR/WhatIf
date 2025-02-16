@@ -11,20 +11,20 @@ public class GameRules : MonoBehaviour
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float coinAttractionForce = 4f;
 
-
+/*
     [Header("Güç Ayarları")]
     [SerializeField] private float gucSarjSuresi = 2f;
     [SerializeField] private float gucCarpani = 2f;
     [SerializeField] private Color gucRengi = Color.red;
-
+*/
 
     [SerializeField] private GameObject coinPrefab;
 
     private Rigidbody2D playerRb;
     private Camera mainCamera;
-    private float chargeTime;
-    private SpriteRenderer playerSprite;
+   // private float chargeTime;
     private Color baslangicRengi;
+    private SpriteRenderer playerSprite;
     private bool RandomMoveBool = false;
     private float RandomMoveTime = 0f;
 
@@ -155,14 +155,7 @@ public class GameRules : MonoBehaviour
                 }
                 break;
 
-            case 1: // Bomb modu
-                if (Input.GetMouseButton(0))
-                {
-                    Bomb();
-                }
-                break;
-
-            case 2: // Para modu
+            case 1: // Para modu
 
                 if(Input.GetMouseButtonDown(0))
                 {
@@ -235,7 +228,7 @@ public class GameRules : MonoBehaviour
             animController.StopCoinRunAnimation();
         }
     }
-
+/*
     private void Bomb()
     {
         // Mouse basılı tutulduğunda güç şarj olur
@@ -312,7 +305,7 @@ public class GameRules : MonoBehaviour
 
         }
     }
-
+*/
     private void calculateRandomMovement()
     {
         int randomPossibility = Random.Range(0, 100);
